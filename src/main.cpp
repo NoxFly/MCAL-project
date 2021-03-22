@@ -1,27 +1,40 @@
 #include <iostream>
 
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
+#include "project_settings.h"
+
+#include "Scene.h"
+#include "IO_manager.h"
+
+using namespace std;
+
+
+void update(Scene &scene);
+void draw(Scene &scene);
+
 
 int main(int argc, char **argv) {
-    // Create the main window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Automate Cellulaire - projet MCAL");
+    if(argc != 2) {
+        cout << "Usage : ./prog <path_to_file>" << endl;
+        return EXIT_FAILURE;
+    }
+    
+    std::shared_ptr<Instruction> ins = IO_manager::read_file(argv[1]);
 
-	while(window.isOpen()) {
-        // Process events
-        sf::Event event;
-        while(window.pollEvent(event)) {
-            // Close window: exit
-            if(event.type == sf::Event::Closed)
-                window.close();
-        }
 
-        // Clear screen
-        window.clear();
-
-        // Update the window
-        window.display();
+    if(USE_GRAPHICS) {
+        Scene scene = Scene();
+        scene.run(&update, &draw);
     }
 
     return EXIT_SUCCESS;
+}
+
+
+
+void update(Scene &scene) {
+
+}
+
+void draw(Scene &scene) {
+
 }

@@ -1,0 +1,6 @@
+#ifndef PROJECT_SETTINGS_H
+#define PROJECT_SETTINGS_H
+
+#define USE_GRAPHICS true
+
+#endif // PROJECT_SETTINGS_H
