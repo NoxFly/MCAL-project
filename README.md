@@ -25,7 +25,7 @@ For example :
 ## Prerequires
 
 Require | Needed
-- | -
+------- | -------
 **Platform** | Linux (tested on Debian 10.5 and Ubuntu 20.04)
 **C++ version** | C++17
 **Library** | SFML >= 2.5
