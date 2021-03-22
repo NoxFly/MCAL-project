@@ -14,7 +14,7 @@ void draw(Scene &scene);
 
 int main(int argc, char **argv) {
     if(argc != 2) {
-        cout << "Usage : ./prog <path_to_file>" << endl;
+        cout << "Usage : " << argv[0] << " <path_to_file>" << endl;
         return EXIT_FAILURE;
     }
     

@@ -7,7 +7,8 @@
 
 class Instruction {
 	public:
-		Instruction(/* fstream file */);
+		Instruction();
+		Instruction(std::vector<std::vector<int>> map, std::vector<int> m_rules, int steps);
 		~Instruction();
         
         // getter and setter

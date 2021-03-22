@@ -25,7 +25,6 @@ std::shared_ptr<Instruction> IO_manager::read_file(std::string file) {
         std::istringstream iss(line);
         std::vector<std::string> result((std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
 
-
         for(unsigned int i=0; i < result.size(); i++) {
             std::cout << result[i] << std::endl;
         }
