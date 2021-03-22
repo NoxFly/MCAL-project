@@ -25,11 +25,10 @@ int main(int argc, char **argv) {
     }
 
     printInstruction(ins);
-    
+
 
     if(USE_GRAPHICS) {
         Scene scene = Scene();
-        scene.run(&update, &draw);
     }
 
     return EXIT_SUCCESS;

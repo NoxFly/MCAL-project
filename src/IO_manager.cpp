@@ -7,8 +7,6 @@
 #include <iterator>
 #include <vector>
 
-using namespace std;
-
 shared_ptr<Instruction> IO_manager::read_file(string file) {
     ifstream infile(file);
 
@@ -58,7 +56,7 @@ shared_ptr<Instruction> IO_manager::read_file(string file) {
         }
 
         else {
-            std::vector<int> numbers{};
+            vector<int> numbers{};
 
             // read each "word" and transform it to a number type
             for(auto sNumber : result) {

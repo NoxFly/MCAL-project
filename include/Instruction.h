@@ -9,12 +9,12 @@
 using namespace std;
 
 typedef struct {
-    std::vector<std::vector<int>> map;
-    std::vector<std::vector<int>> rules;
+    vector<vector<int>> map;
+    vector<vector<int>> rules;
     int steps;
 } Instruction;
 
 void printInstruction(shared_ptr<Instruction> ins);
-bool isValidInstruction(std::shared_ptr<Instruction> instruction);
+bool isValidInstruction(shared_ptr<Instruction> instruction);
 
 #endif // INSTRUCTION_H

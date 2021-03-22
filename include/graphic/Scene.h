@@ -1,18 +1,22 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include <vector>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
 #include "win_props.h"
-
 #include "Input.h"
+
+
+using namespace std;
 
 class Scene {
 	public:
 		Scene();
 		~Scene();
-        void run(void (*update)(Scene &scene), void (*draw)(Scene &scene));
+        
+        void draw(vector<vector<int>> map);
 
         // getters
         unsigned int width() const;
