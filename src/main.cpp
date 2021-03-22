@@ -18,8 +18,14 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
     
-    std::shared_ptr<Instruction> ins = IO_manager::read_file(argv[1]);
+    shared_ptr<Instruction> ins = IO_manager::read_file(argv[1]);
 
+    if(!ins) {
+        return EXIT_FAILURE;
+    }
+
+    printInstruction(ins);
+    
 
     if(USE_GRAPHICS) {
         Scene scene = Scene();

@@ -4,27 +4,17 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <memory>
 
-class Instruction {
-	public:
-		Instruction();
-		Instruction(std::vector<std::vector<int>> map, std::vector<int> m_rules, int steps);
-		~Instruction();
-        
-        // getter and setter
-        std::vector<std::vector<int>> map() const;
-        void map(const std::vector<std::vector<int>> newMap);
+using namespace std;
 
-        std::vector<int> rules() const;
-        void rules(const std::vector<int> newRules);
+typedef struct {
+    std::vector<std::vector<int>> map;
+    std::vector<std::vector<int>> rules;
+    int steps;
+} Instruction;
 
-        int steps() const;
-        void steps(const int nbStep);
-
-    private:
-		std::vector<std::vector<int>> m_map;
-		std::vector<int> m_rules;
-		int m_steps;
-};
+void printInstruction(shared_ptr<Instruction> ins);
+bool isValidInstruction(std::shared_ptr<Instruction> instruction);
 
 #endif // INSTRUCTION_H

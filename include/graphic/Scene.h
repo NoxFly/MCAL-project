@@ -14,6 +14,10 @@ class Scene {
 		~Scene();
         void run(void (*update)(Scene &scene), void (*draw)(Scene &scene));
 
+        // getters
+        unsigned int width() const;
+        unsigned int height() const;
+
     private:
         sf::RenderWindow m_window;
         Input m_input;

@@ -1,8 +1,6 @@
 #include "Input.h"
 
 
-
-
 Input::Input(sf::RenderWindow &window):
     m_window(window)
 {
@@ -19,15 +17,9 @@ Input::Input(sf::RenderWindow &window):
     }
 }
 
-
-
-
 Input::~Input() {
 
 }
-
-
-
 
 
 
@@ -43,8 +35,6 @@ void Input::update() {
         m_mouseButtons_pressed[i] = false;
 
     //
-
-
     
     sf::Event event;
     
@@ -56,12 +46,12 @@ void Input::update() {
 
 
 
-
-
 void Input::eventTreatment(sf::Event event) {
     switch(event.type) {
         // close window by X
-        case sf::Event::Closed: m_window.close(); break;
+        case sf::Event::Closed:
+            m_window.close();
+            break;
 
         // keyboard's key pressed
         case sf::Event::KeyPressed:
@@ -92,11 +82,6 @@ void Input::eventTreatment(sf::Event event) {
     }
 
 }
-
-
-
-
-
 
 
 

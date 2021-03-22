@@ -1,26 +1,31 @@
 #include "Scene.h"
 
 Scene::Scene():
-    m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT), WIN_TITLE),
+    m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT), WIN_TITLE, WIN_FLAGS),
     m_input(m_window)
 {
-
+    // center the window on the screen
+    const auto desktop = sf::VideoMode::getDesktopMode();
+    sf::Vector2i middleScreen(desktop.width/2 - width()/2, desktop.height/2 - height()/2);
+    m_window.setPosition(middleScreen);
 }
 
 Scene::~Scene() {
 
 }
 
+unsigned int Scene::width() const {
+    return m_window.getSize().x;
+}
+
+unsigned int Scene::height() const {
+    return m_window.getSize().y;
+}
+
 void Scene::run(void (*update)(Scene &scene), void (*draw)(Scene &scene)) {
 	while(m_window.isOpen()) {
         // Process events
-        sf::Event event;
-        
-        while(m_window.pollEvent(event)) {
-            // Close window: exit
-            if(event.type == sf::Event::Closed)
-                m_window.close();
-        }
+        m_input.update();
 
         // update stuff here...
         update(*this);

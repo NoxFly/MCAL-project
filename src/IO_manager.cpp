@@ -9,28 +9,88 @@
 
 using namespace std;
 
-std::shared_ptr<Instruction> IO_manager::read_file(std::string file) {
-    std::ifstream infile(file);
+shared_ptr<Instruction> IO_manager::read_file(string file) {
+    ifstream infile(file);
 
     if(!infile.good()) {
-        cout << "Error, file not found or can't be opened" << endl;
+        cerr << "IO_manager::read_file Error : file not found or can't be opened." << endl;
         infile.close();
         return nullptr;
     }
 
+    shared_ptr<Instruction> recipe = make_shared<Instruction>();
+    recipe->map = {};
+    recipe->rules = {};
+    recipe->steps = 0;
 
-    std::string line;
+    string line;
+    
+    if(!getline(infile, line)) {
+        cerr << "IO_manager::read_file Error : missing value (steps)." << endl;
+        infile.close();
+        return nullptr;
+    }
 
-    while(std::getline(infile, line)) {
-        std::istringstream iss(line);
-        std::vector<std::string> result((std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
+    try {
+        recipe->steps = stoi(line);
+    } catch(exception &err) {
+        cerr << "IO_manager::read_file Error : steps given value isn't an integer." << endl;
+        infile.close();
+        return nullptr;
+    }
 
-        for(unsigned int i=0; i < result.size(); i++) {
-            std::cout << result[i] << std::endl;
+    if(recipe->steps < 0) {
+        cerr << "IO_manager::read_file Warning : cannot set a negative number of steps." << endl;
+        recipe->steps = 0;
+    }
+    
+    int readingRules = 0;
+
+    // read line
+    while(getline(infile, line) && readingRules < 3) {
+        // string.split(" ")
+        istringstream iss(line);
+        vector<string> result((istream_iterator<string>(iss)), istream_iterator<string>());
+
+        // read a blank before we read rules or map : change section
+        if(result.size() == 0) {
+            readingRules++;
+        }
+
+        else {
+            std::vector<int> numbers{};
+
+            // read each "word" and transform it to a number type
+            for(auto sNumber : result) {
+                try {
+                    numbers.push_back(stoi(sNumber));
+                } catch(exception &err) {
+                    cerr << "IO_manager::read_file Error while reading "
+                         << (readingRules < 2 ? "rules" : "map")
+                         << " : read something else than an integer"
+                         << endl;
+                    infile.close();
+                    return nullptr;
+                }
+            }
+
+            // rules
+            if(readingRules == 1) {
+                recipe->rules.push_back(numbers);
+            }
+
+            // map
+            else {
+                recipe->map.push_back(numbers);
+            }
         }
     }
 
     infile.close();
 
-    return std::make_shared<Instruction>();
+    if(!isValidInstruction(recipe)) {
+        return nullptr;
+    }
+
+    return recipe;
 }

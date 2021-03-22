@@ -1,17 +1,76 @@
 #include "Instruction.h"
 
-Instruction::Instruction():
-    m_map{}, m_rules{}, m_steps(0)
-{
+void printInstruction(shared_ptr<Instruction> ins) {
+    if(!ins) {
+        return;
+    }
 
+    cout << "Steps : " << ins->steps << endl;
+
+    cout << "\nRules : \n";
+    for(auto v : ins->rules) {
+        for(auto n : v) {
+            cout << n;
+        }
+        cout << endl;
+    }
+
+    cout << "\nMap : \n";
+    for(auto v : ins->map) {
+        for(auto n : v) {
+            cout << n;
+        }
+        cout << endl;
+    }
 }
 
-Instruction::Instruction(std::vector<std::vector<int>> map, std::vector<int> rules, int steps):
-    m_map{map}, m_rules{rules}, m_steps(steps)
-{
+bool isValidInstruction(std::shared_ptr<Instruction> instruction) {
+    if(instruction->steps < 0) {
+        cerr << "isValidInstruction() Error : instruction must have 0 or more steps." << endl;
+        return false;
+    }
 
-}
+    if(instruction->rules.size() == 0) {
+        cerr << "isValidInstruction() Error : no rule provided." << endl;
+        return false;
+    }
 
-Instruction::~Instruction() {
+    if(instruction->map.size() == 0) {
+        cerr << "isValidInstruction() Error : no map provided." << endl;
+        return false;
+    }
 
+    int ruleLength = instruction->rules[0].size();
+
+    for(auto v : instruction->rules) {
+        if(v.size() != ruleLength) {
+            cerr << "isValidInstruction() Error : rules have not the same size." << endl;
+            return false;
+        }
+
+        for(auto n : v) {
+            if(n < 0) {
+                cerr << "isValidInstruction() Error : negative number not allowed." << endl;
+                return false;
+            }
+        }
+    }
+
+    int mapWidth = instruction->map[0].size();
+
+    for(auto v : instruction->map) {
+        if(v.size() != mapWidth) {
+            cerr << "isValidInstruction() Error : map rows have not the same size." << endl;
+            return false;
+        }
+
+        for(auto n : v) {
+            if(n < 0 || n > 1) {
+                cerr << "isValidInstruction() Error : map values must be 0 or 1 only." << endl;
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
