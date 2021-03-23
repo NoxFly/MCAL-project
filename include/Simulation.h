@@ -19,20 +19,15 @@ class Simulation {
         void pause();
         void resume();
 
-        void update();
-        void loop();
-
+        void update(sf::Time elapsedTime);
         void setRecipe(shared_ptr<Instruction> recipe);
-        void bindWindow(shared_ptr<Scene> scene);
+        vector<vector<int>> getMap() const;
 
     private:
         shared_ptr<Instruction> m_recipe;
         bool m_pause;
-        sf::Time m_elapsedTime;
         vector<vector<int>> m_map;
         int m_step;
-        shared_ptr<Scene> m_scene;
-        bool m_hasWindow;
 };
 
 #endif // SIMULATION_H

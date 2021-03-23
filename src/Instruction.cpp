@@ -15,7 +15,7 @@ void printInstruction(shared_ptr<Instruction> ins) {
         cout << endl;
     }
 
-    cout << "\nMap : \n";
+    cout << "\nMap " << ins->map.at(0).size() << "x" << ins->map.size() <<  " : \n";
     for(auto v : ins->map) {
         for(auto n : v) {
             cout << n;

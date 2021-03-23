@@ -41,7 +41,22 @@ SFML will display a warning message to tell you OpenGL's version is lower than r
 
 ## Also
 
-There's a graphic part. To disable it, go on `include/_conf/project_settings.h` and set `USE_GRAPHICS` to `false`.
+### The include/_conf/project_settings.h file
+
+In this file, you can change some settings :
+
+There's a graphic part. To disable it, set `USE_GRAPHICS` to `false`.
+
+The scene can support multiple views, which are automatically organized depending of how many simulation is rendered. To check if views are correctly placed through the window, set the `CHECK_VIEWS` to `true`.
+
+To activate the pseudo debug mode (which is verbosing in the console), set `DEBUG` to `true`.
+
+You also can change the FPS.
+
+
+## Project's structure
+
+![project's structure image](./resources/project_structure.png)
 
 
 ## About

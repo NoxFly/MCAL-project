@@ -2,6 +2,8 @@
 
 #include <SFML/System/Clock.hpp>
 
+#include "project_settings.h"
+
 Simulation::Simulation():
     Simulation(nullptr)
 {
@@ -11,11 +13,8 @@ Simulation::Simulation():
 Simulation::Simulation(shared_ptr<Instruction> recipe):
     m_recipe(nullptr),
     m_pause(true),
-    m_elapsedTime(sf::Time::Zero),
-    m_map{},
     m_step(0),
-    m_hasScene(false),
-    m_scene(nullptr)
+    m_map{}
 {
     setRecipe(recipe);
 }
@@ -25,12 +24,18 @@ Simulation::~Simulation() {
 }
 
 void Simulation::start() {
+    if(m_recipe == nullptr) {
+        cout << "Simulation::start Warning : cannot start the simulation because it has no recipe." << endl;
+        return;
+    }
+
     m_pause = false;
+    m_step = 0;
+    m_map.assign(m_recipe->map.begin(), m_recipe->map.end());
 }
 
 void Simulation::stop() {
     m_pause = true;
-    m_elapsedTime = sf::Time::Zero;
     m_map = {};
     m_step = 0;
 }
@@ -45,29 +50,23 @@ void Simulation::resume() {
 
 void Simulation::setRecipe(shared_ptr<Instruction> recipe) {
     m_recipe = recipe;
+
+#if DEBUG == true
+    printInstruction(m_recipe);
+#endif
 }
 
-void Simulation::bindWindow(shared_ptr<Scene> scene) {
-    m_scene = scene;
-}
-
-void Simulation::update() {
-
-}
-
-void Simulation::loop() {
-    sf::Clock clock;
-
-    update();
-
-    if(m_hasScene) {
-        m_scene->draw(m_map);
+void Simulation::update(sf::Time elapsedTime) {
+    if(m_pause) {
+        return;
     }
 
-    sf::Time t = clock.getElapsedTime();
-    m_elapsedTime += t;
-
-    if(!m_pause) {
-        loop();
+    if(m_recipe == nullptr) {
+        cout << "Simulation::update Warning : cannot update the simulation because it has no recipe." << endl;
+        return;
     }
+}
+
+vector<vector<int>> Simulation::getMap() const {
+    return m_map;
 }
