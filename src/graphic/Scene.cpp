@@ -153,15 +153,21 @@ void Scene::draw(const vector<vector<int>> &map, sf::Vector2f viewSize) {
         const vector<int> row = map.at(i);
 
         for(unsigned int j=0; j < mapSize.x; j++) {
+            sf::Vector2f position(j * iCellSize, i * iCellSize);
+            sf::RectangleShape cell(cellSize);
+            cell.setPosition(position);
+            cell.setOutlineThickness(1);
+            cell.setOutlineColor(sf::Color(50, 50, 50));
+
             if(row.at(j) == 1) {
-                sf::Vector2f position(j * iCellSize, i * iCellSize);
-                sf::RectangleShape cell(cellSize);
-                cell.setPosition(position);
-
-                cell.setFillColor(sf::Color::White);
-
-                m_window.draw(cell);
+                cell.setFillColor(sf::Color(200, 50, 50));
             }
+
+            else {
+                cell.setFillColor(sf::Color(10, 10, 10));
+            }
+
+            m_window.draw(cell);
         }
     }
 }

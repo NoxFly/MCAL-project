@@ -25,8 +25,8 @@ void printInstruction(shared_ptr<Instruction> ins) {
 }
 
 bool isValidInstruction(shared_ptr<Instruction> instruction) {
-    if(instruction->steps < 0) {
-        cerr << "isValidInstruction() Error : instruction must have 0 or more steps." << endl;
+    if(instruction->steps < -1) {
+        cerr << "isValidInstruction() Error : instruction must have 0 or more steps, or -1 for infinite steps." << endl;
         return false;
     }
 

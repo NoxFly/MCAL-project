@@ -37,9 +37,9 @@ shared_ptr<Instruction> IO_manager::read_file(string file) {
         return nullptr;
     }
 
-    if(recipe->steps < 0) {
-        cerr << "IO_manager::read_file Warning : cannot set a negative number of steps." << endl;
-        recipe->steps = 0;
+    if(recipe->steps < -1) {
+        cerr << "IO_manager::read_file Warning : cannot set a negative number of steps. Transformed to -1 for infinite steps." << endl;
+        recipe->steps = -1;
     }
     
     int readingRules = 0;
