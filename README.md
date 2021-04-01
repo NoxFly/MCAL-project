@@ -19,7 +19,7 @@ The shell script will compile and execute the code.
 For example :
 
 ```sh
-./run.sh resources/example/vie.txt
+./run.sh resources/example/5x5.txt
 ```
 
 ## Prerequires

@@ -113,6 +113,8 @@ void Scene::render(vector<Simulation> &simulations) {
     // to not go out of bounds for one of the two
     unsigned int m = min(simulations.size(), m_views.size());
 
+    sf::Uint8 h = 255 / m;
+
     // clear
     m_window.clear();
 
@@ -125,7 +127,7 @@ void Scene::render(vector<Simulation> &simulations) {
 #if CHECK_VIEWS == true
         sf::RectangleShape r(view.getSize());
         r.setPosition(0, 0);
-        r.setFillColor(sf::Color(rand() % 255, rand() % 255, rand() % 255));
+        r.setFillColor(sf::Color(h*i, h*i, h*i, 255));
         m_window.draw(r);
 #else
         //draw
