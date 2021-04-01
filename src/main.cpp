@@ -21,6 +21,9 @@ int main(int argc, char **argv) {
     vector<Simulation> simulations{};
     
     for(int i=1; i < argc; i++) {
+#if CHECK_VIEWS == true
+    for(int j=0; j < 10; j++) { // create 10 same views to check view's disposition
+#endif
         // read the recipe for a new simulation
         const shared_ptr<Instruction> ins = IO_manager::read_file(argv[1]);
 
@@ -30,6 +33,9 @@ int main(int argc, char **argv) {
 
         // create the simulation with given recipe
         simulations.push_back(Simulation(ins));
+#if CHECK_VIEWS == true
+    }
+#endif
     }
 
     // it doens't need to do anything if there's no simulation to play
