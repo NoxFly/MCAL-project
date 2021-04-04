@@ -80,7 +80,7 @@ void Simulation::setRecipe(shared_ptr<Instruction> recipe) {
             1 0 1 1 1  (a rule : if a cell beeing 1 has 2 or 3 neighbors, keep its state)
               1 2 3    (number of neighbors)
             Q   ^ ^ Qp
-            
+
             m_conditions[1] = {
                 2: 1
                 3: 1
@@ -201,7 +201,7 @@ void Simulation::update(sf::Time elapsedTime) {
     }
 
     m_map.assign(tmp.begin(), tmp.end());
-    
+
     if(m_step > -1)
         m_step++;
 }
