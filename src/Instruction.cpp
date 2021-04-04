@@ -43,9 +43,13 @@ bool isValidInstruction(shared_ptr<Instruction> instruction) {
     int ruleLength = instruction->rules[0].size();
 
     for(auto v : instruction->rules) {
-        if(v.size() != ruleLength) {
+        /* if(v.size() != ruleLength) {
             cerr << "isValidInstruction() Error : rules have not the same size." << endl;
             return false;
+        } */
+
+        if(v.size() < 2) {
+            cerr << "isValidInstruction() Error : a rule must at least indicates a Q and Q' states." << endl;
         }
 
         for(auto n : v) {
@@ -64,12 +68,12 @@ bool isValidInstruction(shared_ptr<Instruction> instruction) {
             return false;
         }
 
-        for(auto n : v) {
+        /* for(auto n : v) {
             if(n < 0 || n > 1) {
                 cerr << "isValidInstruction() Error : map values must be 0 or 1 only." << endl;
                 return false;
             }
-        }
+        } */
     }
 
     return true;

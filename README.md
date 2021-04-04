@@ -22,6 +22,8 @@ For example :
 ./run.sh resources/example/5x5.txt
 ```
 
+With console mode, you have to press Enter to step forward, and Ctrl+C to quit.
+
 ## Prerequires
 
 Require | Needed
@@ -52,6 +54,8 @@ The scene can support multiple views, which are automatically organized dependin
 To activate the pseudo debug mode (which is verbosing in the console), set `DEBUG` to `true`.
 
 You also can change the FPS.
+
+**If you change something in this file, you must add the `-f` option for the run command.**
 
 
 ## Project's structure

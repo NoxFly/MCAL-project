@@ -1,0 +1,8 @@
+steps (>= -1, -1 = infinite)
+
+rules :
+Q nb1? nb2? nb3? nb4? nb5? nb6? nb7? nb8? Q'
+Where nbi is 0 or 1, defining the condition to make Q goes to Q'
+
+matrix :
+Lines filled by 0 and 1. Rows must have the same length and same for columns.
