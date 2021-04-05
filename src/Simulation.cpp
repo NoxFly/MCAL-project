@@ -1,8 +1,7 @@
 #include "Simulation.h"
 
-#include <SFML/System/Clock.hpp>
-
 #include "project_settings.h"
+#include <SFML/System/Vector2.hpp>
 
 /**
  * Default constructor - no recipe provided
@@ -212,14 +211,25 @@ std::vector<int> Simulation::around(int abs, int ord) {
     std::vector<int> near = {};
     int x, y;
     const int range = 1; // for now we're limiting to only one range
+    sf::Vector2<bool> small(m_map[0].size()-1 <= range, m_map.size()-1 <= range);
 
     for(int i = -range; i <= range; i++) {
         for(int j = -range; j <= range; j++) {
             if(i == j && i == 0) // to not take care of the cell itself
                 continue;
+
+            int ii = ord + i;
+            int jj = abs + j;
             
-            x = modulo(abs + j, m_map[0].size());
-            y = modulo(ord + i, m_map.size());
+            // don't treat multiple times the same neighbors
+            // if the matrix is small and we then access it by a grid offset
+            // (bringing back at the opposite side)
+            if(((ii < 0 || ii >= m_map.size()) && small.x)
+            || ((jj < 0 || jj >= m_map[0].size()) && small.y))
+                continue;
+            
+            x = modulo(jj, m_map[0].size());
+            y = modulo(ii, m_map.size());
             
             near.push_back(m_map[y][x]);
         }
