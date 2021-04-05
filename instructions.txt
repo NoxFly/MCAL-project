@@ -1,0 +1,2 @@
+sudo apt-get install libsfml-dev
+run -v resources/example/gol/5x5.txt

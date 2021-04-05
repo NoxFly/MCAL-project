@@ -1,42 +1,51 @@
 #include "Instruction.h"
 
-void printInstruction(shared_ptr<Instruction> ins) {
-    if(!ins) {
+/**
+ * Prints the recipe's struct in the console
+ * @param ins the recipe to print
+ */
+void printInstruction(std::shared_ptr<Instruction> ins) {
+    if(!ins)
         return;
-    }
 
-    cout << "Steps : " << ins->steps << endl;
+    std::cout << "Steps : " << ins->steps << std::endl;
 
-    cout << "\nRules : \n";
+    std::cout << "\nRules : \n";
     for(auto v : ins->rules) {
-        for(auto n : v) {
-            cout << n;
-        }
-        cout << endl;
+        for(auto n : v)
+            std::cout << n;
+        std::cout << std::endl;
     }
 
-    cout << "\nMap " << ins->map.at(0).size() << "x" << ins->map.size() <<  " : \n";
+    std::cout << "\nMap " << ins->map.at(0).size() << "x" << ins->map.size() <<  " : \n";
     for(auto v : ins->map) {
-        for(auto n : v) {
-            cout << n;
-        }
-        cout << endl;
+        for(auto n : v)
+            std::cout << n;
+        std::cout << std::endl;
     }
 }
 
-bool isValidInstruction(shared_ptr<Instruction> instruction) {
+/**
+ * Returns either the given instruction / recipe is valid or not
+ * @param instruction the recipe to check its validity
+ * @return recipe's validity
+ */
+bool isValidInstruction(std::shared_ptr<Instruction> instruction) {
+    // steps must be >= -1
     if(instruction->steps < -1) {
-        cerr << "isValidInstruction() Error : instruction must have 0 or more steps, or -1 for infinite steps." << endl;
+        std::cerr << "isValidInstruction() Error : instruction must have 0 or more steps, or -1 for infinite steps." << std::endl;
         return false;
     }
 
+    // no rules specified
     if(instruction->rules.size() == 0) {
-        cerr << "isValidInstruction() Error : no rule provided." << endl;
+        std::cerr << "isValidInstruction() Error : no rule provided." << std::endl;
         return false;
     }
 
+    // no map specified
     if(instruction->map.size() == 0) {
-        cerr << "isValidInstruction() Error : no map provided." << endl;
+        std::cerr << "isValidInstruction() Error : no map provided." << std::endl;
         return false;
     }
 
@@ -48,13 +57,14 @@ bool isValidInstruction(shared_ptr<Instruction> instruction) {
             return false;
         } */
 
-        if(v.size() < 2) {
-            cerr << "isValidInstruction() Error : a rule must at least indicates a Q and Q' states." << endl;
-        }
+        // a rule must at least have "Q Q'"
+        if(v.size() < 2)
+            std::cerr << "isValidInstruction() Error : a rule must at least indicates a Q and Q' states." << std::endl;
 
+        // a rule only can contains positive numbers
         for(auto n : v) {
             if(n < 0) {
-                cerr << "isValidInstruction() Error : negative number not allowed." << endl;
+                std::cerr << "isValidInstruction() Error : negative number not allowed." << std::endl;
                 return false;
             }
         }
@@ -63,8 +73,9 @@ bool isValidInstruction(shared_ptr<Instruction> instruction) {
     int mapWidth = instruction->map[0].size();
 
     for(auto v : instruction->map) {
+        // map must be well filled
         if(v.size() != mapWidth) {
-            cerr << "isValidInstruction() Error : map rows have not the same size." << endl;
+            std::cerr << "isValidInstruction() Error : map rows have not the same size." << std::endl;
             return false;
         }
 

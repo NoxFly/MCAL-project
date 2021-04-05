@@ -24,27 +24,40 @@ Scene::~Scene() {
 
 }
 
-
+/**
+ * Returns either the window is closed or not
+ * @return window is still opened
+ */
 bool Scene::isOpen() const {
     return m_window.isOpen();
 }
 
-
+/**
+ * Returns the window's width
+ * @return window's width
+ */
 unsigned int Scene::width() const {
     return m_window.getSize().x;
 }
 
+/**
+ * Returns the window's height
+ * @return window's height
+ */
 unsigned int Scene::height() const {
     return m_window.getSize().y;
 }
 
-
+/**
+ * Adapts the views on the window depending of how many simulations are rendered
+ * @param numberOfSimulations the number of simulations
+ */
 void Scene::adaptView(unsigned int numberOfSimulations) {
     m_views.clear();
     const int n = numberOfSimulations;
 
 #if DEBUG == true
-    cout << "=== Setting views ===" << endl;
+    std::cout << "=== Setting views ===" << std::endl;
 #endif
 
     // calculate the view's repartition through the window
@@ -103,15 +116,54 @@ void Scene::adaptView(unsigned int numberOfSimulations) {
     }
 }
 
+/**
+ * Resizes the window depending of the given simulation,
+ * so it fits the grid's ratio.
+ * Intentionally taking the whole screen size
+ * @param s the simulation
+ */
+void Scene::resizeFromSimulation(Simulation &s) {
+    const auto desktop = sf::VideoMode::getDesktopMode();
+    const sf::Vector2f mapSize = s.getMapSize();
+    const float ratio = std::max(mapSize.x, mapSize.y) / std::min(mapSize.x, mapSize.y);
+    const unsigned int cellSize = 200; // intentional 'too big' value for cell's size, so the window we'll cover main screen
 
+    unsigned int winW = cellSize * mapSize.x;
+    unsigned int winH = cellSize * mapSize.y;
+
+    if(winW >= desktop.width) {
+        winW = desktop.width - 100;
+        winH = winW * mapSize.x / mapSize.y;
+    }
+    
+    if(winH >= desktop.height) {
+        winH = desktop.height - 100;
+        winW = winH * mapSize.y / mapSize.x;
+    }
+
+    // resize
+    m_window.setSize(sf::Vector2u(winW, winH));
+
+    // re-center the resized window
+    sf::Vector2i middleScreen(desktop.width/2 - width()/2, desktop.height/2 - height()/2);
+    m_window.setPosition(middleScreen);
+}
+
+/**
+ * Updates the scene's input
+ */
 void Scene::update() {
     m_input.update();
 }
 
 
-void Scene::render(vector<Simulation> &simulations) {
+/**
+ * Renders simulations on the window
+ * @param simulations the vector of simulations
+ */
+void Scene::render(std::vector<Simulation> &simulations) {
     // to not go out of bounds for one of the two
-    unsigned int m = min(simulations.size(), m_views.size());
+    unsigned int m = std::min(simulations.size(), m_views.size());
 
     sf::Uint8 h = 255 / m;
 
@@ -140,19 +192,22 @@ void Scene::render(vector<Simulation> &simulations) {
     m_window.display();
 }
 
-
-void Scene::draw(const vector<vector<int>> &map, sf::Vector2f viewSize) {
+/**
+ * Draws a simulation on its view
+ * @param map the map to draw
+ * @param viewSize the view size
+ */
+void Scene::draw(const std::vector<std::vector<int>> &map, sf::Vector2f viewSize) {
     // draws a given simulation's map in the current view
-    if(map.size() == 0 || map.at(0).size() == 0) {
+    if(map.size() == 0 || map.at(0).size() == 0)
         return;
-    }
 
     const sf::Vector2f mapSize(map.at(0).size(), map.size());
-    const int iCellSize = min(viewSize.x / mapSize.x, viewSize.y / mapSize.y);
+    const int iCellSize = std::min(viewSize.x / mapSize.x, viewSize.y / mapSize.y);
     const sf::Vector2f cellSize(iCellSize, iCellSize);
 
     for(unsigned int i=0; i < mapSize.y; i++) {
-        const vector<int> row = map.at(i);
+        const std::vector<int> row = map.at(i);
 
         for(unsigned int j=0; j < mapSize.x; j++) {
             sf::Vector2f position(j * iCellSize, i * iCellSize);
@@ -161,7 +216,7 @@ void Scene::draw(const vector<vector<int>> &map, sf::Vector2f viewSize) {
             cell.setOutlineThickness(1);
             cell.setOutlineColor(sf::Color(50, 50, 50));
 
-            if(row.at(j) == 1) {
+            if(row.at(j) == 1) { // we do not care about states that are higher than 1 for now
                 cell.setFillColor(sf::Color(200, 50, 50));
             }
 

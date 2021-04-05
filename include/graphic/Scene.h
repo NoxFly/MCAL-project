@@ -9,7 +9,6 @@
 #include "Input.h"
 #include "Simulation.h"
 
-using namespace std;
 
 class Simulation;
 
@@ -18,10 +17,12 @@ class Scene {
 		Scene();
 		~Scene();
         
-        void render(vector<Simulation> &simulations);
+        void render(std::vector<Simulation> &simulations);
         bool isOpen() const;
         void update();
         void adaptView(unsigned int numberOfSimulations);
+
+        void resizeFromSimulation(Simulation &s);
 
         // getters
         unsigned int width() const;
@@ -30,9 +31,9 @@ class Scene {
     private:
         sf::RenderWindow m_window;
         Input m_input;
-        vector<sf::View> m_views;
+        std::vector<sf::View> m_views;
 
-        void draw(const vector<vector<int>> &map, sf::Vector2f viewSize);
+        void draw(const std::vector<std::vector<int>> &map, sf::Vector2f viewSize);
 };
 
 #endif // SCENE_H

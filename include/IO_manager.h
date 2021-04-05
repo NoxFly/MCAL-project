@@ -6,11 +6,9 @@
 
 #include "Instruction.h"
 
-using namespace std;
-
 class IO_manager {
 	public:
-		static shared_ptr<Instruction> read_file(string file);
+		static std::shared_ptr<Instruction> read_file(std::string file);
 };
 
 #endif // IO_MANAGER_H

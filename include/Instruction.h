@@ -6,15 +6,20 @@
 #include <fstream>
 #include <memory>
 
-using namespace std;
-
+/**
+ * @struct Instruction
+ * Stores simulation recipe's data
+ * @property steps - a number of steps
+ * @property map - a 2D matrix
+ * @property rules - some rules that can update cellular automaton
+ */
 typedef struct {
-    vector<vector<int>> map;
-    vector<vector<int>> rules;
+    std::vector<std::vector<int>> map;
+    std::vector<std::vector<int>> rules;
     int steps;
 } Instruction;
 
-void printInstruction(shared_ptr<Instruction> ins);
-bool isValidInstruction(shared_ptr<Instruction> instruction);
+void printInstruction(std::shared_ptr<Instruction> ins);
+bool isValidInstruction(std::shared_ptr<Instruction> instruction);
 
 #endif // INSTRUCTION_H

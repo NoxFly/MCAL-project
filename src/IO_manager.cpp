@@ -7,38 +7,50 @@
 #include <iterator>
 #include <vector>
 
-shared_ptr<Instruction> IO_manager::read_file(string file) {
-    ifstream infile(file);
+/**
+ * Reads a file, and tries to create a simulation's recipe thanks it
+ * @param file path of recipe
+ * @return the created recipe. nullptr if something went wrong
+ */
+std::shared_ptr<Instruction> IO_manager::read_file(std::string file) {
+    std::ifstream infile(file);
 
+    // cannot open the file
     if(!infile.good()) {
-        cerr << "IO_manager::read_file Error : file not found or can't be opened." << endl;
+        std::cerr << "IO_manager::read_file Error : file not found or can't be opened." << std::endl;
         infile.close();
         return nullptr;
     }
 
-    shared_ptr<Instruction> recipe = make_shared<Instruction>();
+
+    std::shared_ptr<Instruction> recipe = std::make_shared<Instruction>();
     recipe->map = {};
     recipe->rules = {};
     recipe->steps = 0;
 
-    string line;
+    std::string line;
     
+
+    // no content
     if(!getline(infile, line)) {
-        cerr << "IO_manager::read_file Error : missing value (steps)." << endl;
+        std::cerr << "IO_manager::read_file Error : missing value (steps)." << std::endl;
         infile.close();
         return nullptr;
     }
 
+    // try to recover the number of steps : convert string to int
     try {
         recipe->steps = stoi(line);
-    } catch(exception &err) {
-        cerr << "IO_manager::read_file Error : steps given value isn't an integer." << endl;
+    }
+    catch(std::exception &err) {
+        std::cerr << "IO_manager::read_file Error : steps given value isn't an integer." << std::endl;
         infile.close();
         return nullptr;
     }
 
+    // bring back negative numbers to -1
     if(recipe->steps < -1) {
-        cerr << "IO_manager::read_file Warning : cannot set a negative number of steps. Transformed to -1 for infinite steps." << endl;
+        std::cerr << "IO_manager::read_file Warning : cannot set a negative number of steps. Transformed to -1 for infinite steps." << std::endl;
         recipe->steps = -1;
     }
     
@@ -47,40 +59,37 @@ shared_ptr<Instruction> IO_manager::read_file(string file) {
     // read line
     while(getline(infile, line) && readingRules < 3) {
         // string.split(" ")
-        istringstream iss(line);
-        vector<string> result((istream_iterator<string>(iss)), istream_iterator<string>());
+        std::istringstream iss(line);
+        std::vector<std::string> result((std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
 
         // read a blank before we read rules or map : change section
-        if(result.size() == 0) {
-            readingRules++;
-        }
+        if(result.size() == 0)
+            readingRules++; // now read matrix, because we just read a blank line
 
         else {
-            vector<int> numbers{};
+            std::vector<int> numbers{};
 
             // read each "word" and transform it to a number type
             for(auto sNumber : result) {
                 try {
                     numbers.push_back(stoi(sNumber));
-                } catch(exception &err) {
-                    cerr << "IO_manager::read_file Error while reading "
+                }
+                catch(std::exception &err) {
+                    std::cerr << "IO_manager::read_file Error while reading "
                          << (readingRules < 2 ? "rules" : "map")
                          << " : read something else than an integer"
-                         << endl;
+                         << std::endl;
                     infile.close();
                     return nullptr;
                 }
             }
 
             // rules
-            if(readingRules == 1) {
+            if(readingRules == 1)
                 recipe->rules.push_back(numbers);
-            }
-
             // map
-            else {
+            else
                 recipe->map.push_back(numbers);
-            }
         }
     }
 
