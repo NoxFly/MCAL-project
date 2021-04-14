@@ -133,7 +133,7 @@ void Simulation::setRecipe(std::shared_ptr<Instruction> recipe) {
             */
             for(int i=1; i < rule.size()-1; i++) {
                 if(rule[i] > 0) {
-                    m_conditions[Q][i] = Qp;
+                    m_conditions[Q][i-1] = Qp;
                 }
             }
         }
