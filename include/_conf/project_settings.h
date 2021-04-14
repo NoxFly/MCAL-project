@@ -5,6 +5,6 @@
 #define CHECK_VIEWS false
 
 #define USE_GRAPHICS true
-#define FPS 10
+#define FPS 1
 
 #endif // PROJECT_SETTINGS_H
